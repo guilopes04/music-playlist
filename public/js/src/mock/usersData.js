@@ -7,7 +7,7 @@ export const usersData = [
         musicas: [
           {
             titulo: 'Música 1',
-            link: 'https://open.spotify.com/intl-pt/track/1FvRmSCHEaDPtsO29TbRVF?si=acd4717468d44579'
+            link: 'https://youtu.be/HMBRjo33cUE?si=vO1XRCYNUIlRxoAF'
           },
           {
             titulo: 'Música 2',
@@ -15,7 +15,7 @@ export const usersData = [
           },
           {
             titulo: 'Música 3',
-            link: 'https://open.spotify.com/intl-pt/track/1FvRmSCHEaDPtsO29TbRVF?si=acd4717468d44579'
+            link: 'https://soundcloud.com/vintageculturemusic/vintage-culture-afterparty-is-calling-01?si=8f43adf5950d448589372d222c7fde9c&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing'
           }
         ]
       },

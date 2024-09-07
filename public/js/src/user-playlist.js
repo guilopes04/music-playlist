@@ -25,21 +25,19 @@ export const UserPlaylist = () => {
 
       playlistContainer.innerHTML = `
             <h3>Playlist: ${playlist.nome}</h3>
-            <ul>
+            <div id="user-playlist-musics-container">
               ${playlist.musicas
                 .map(
                   (musica, index) => `
-                <li>
-                  <h4>${musica.titulo}</h4>
-                </li>
                 <div>
-                  ${Helpers.getMusicPlayer(musica.link)}
+                  <h4>${musica.titulo}</h4>
                   <br/>
+                  ${Helpers.getMusicPlayer(musica.link)}
                 </div>
               `
                 )
                 .join('')}
-            </ul>
+            </div>
           `
     } else if (playlistContainer) {
       playlistContainer.innerHTML = '<p>Playlist não encontrada.</p>'

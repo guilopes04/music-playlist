@@ -6,6 +6,7 @@ export class Helpers {
   static extractYouTubeID(url) {
     const regex =
       /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/
+
     const match = url.match(regex)
     return match ? match[1] : null
   }
@@ -29,7 +30,7 @@ export class Helpers {
     } else if (link.includes('spotify.com')) {
       player = `<iframe src="https://open.spotify.com/embed/track/${Helpers.extractSpotifyID(
         link
-      )}" width="100%" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`
+      )}" width="100%" height="80px" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`
     } else if (link.includes('soundcloud.com')) {
       player = `<iframe width="100%" scrolling="no" frameborder="no" allow="autoplay"
         src="https://w.soundcloud.com/player/?url=${link}&color=%23ff5500&auto_play=false"></iframe>`

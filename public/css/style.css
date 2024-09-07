@@ -69,3 +69,29 @@ h2 {
     font-size: 1.2rem;
     padding: 5px 10px;
   }
+
+  #user-playlist-container {
+    padding: 20px;
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 7%;
+  }
+
+  #user-playlist-container h3 {
+    margin-bottom: 10px;
+    color: #343a40;
+  }
+
+  #user-playlist-container #user-playlist-musics-container {
+    margin-top: 5%;
+  }
+
+  #user-playlist-container #user-playlist-musics-container div {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 1.5%;
+    margin-bottom: 5%;
+    align-items: center;
+  }
