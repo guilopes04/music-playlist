@@ -1,4 +1,4 @@
-import { addEventListenerToElement } from './get-element.js'
+import { addEventListenerToElement } from './add-event-listener-to-element.js'
 import { music, playlist, searchUsers } from '../script.js'
 import { usersData } from './mock/usersData.js'
 
