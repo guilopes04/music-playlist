@@ -1,6 +1,6 @@
 export const usersData = [
   {
-    username: 'joaodasilva',
+    username: 'Guilherme Lopes',
     playlists: [
       {
         nome: 'Top Hits 2024',
@@ -35,7 +35,7 @@ export const usersData = [
     ]
   },
   {
-    username: 'mariasantos',
+    username: 'Thiago Zampieri',
     playlists: [
       {
         nome: 'Eletrônica Favorita',

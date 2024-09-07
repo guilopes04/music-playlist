@@ -64,11 +64,11 @@ export class Helpers {
     document.getElementById('search-input').addEventListener('input', (e) => {
       const searchValue = e.target.value.toLowerCase().trim()
       const blankSpaceRegex = /^\s*$/
-      if (blankSpaceRegex.test(searchValue)) return displayUsers([])
+      if (blankSpaceRegex.test(searchValue)) return searchUsers.displayUsers([])
       const filteredUsers = usersData.filter((user) =>
         user.username.toLowerCase().includes(searchValue)
       )
-      searchUsers.displayUsers(filteredUsers)
+      return searchUsers.displayUsers(filteredUsers)
     })
   }
 
