@@ -2,6 +2,7 @@ export const addEventListenerToElement = (
   elementId,
   method,
   useIndex = false,
+  eventType = 'click',
   retries = 5,
   delay = 200
 ) => {
@@ -9,7 +10,10 @@ export const addEventListenerToElement = (
     const elements = document.getElementsByName(elementId)
     if (elements.length) {
       elements.forEach((element, index) =>
-        element.addEventListener('click', () => {
+        element.addEventListener(eventType, () => {
+          elementId === 'search-users-btn'
+            ? console.log('elemnt', element)
+            : null
           useIndex ? method(index) : method()
         })
       )

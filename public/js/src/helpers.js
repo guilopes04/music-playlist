@@ -1,5 +1,6 @@
 import { addEventListenerToElement } from './get-element.js'
-import { music, playlist } from '../script.js'
+import { music, playlist, searchUsers } from '../script.js'
+import { usersData } from './mock/usersData.js'
 
 export class Helpers {
   static extractYouTubeID(url) {
@@ -16,6 +17,27 @@ export class Helpers {
     return match ? match[1] : null
   }
 
+  static getMusicPlayer = (link) => {
+    let player = ''
+
+    if (link.includes('youtube.com') || link.includes('youtu.be')) {
+      player = `
+        <iframe width="100%" src="https://www.youtube.com/embed/${Helpers.extractYouTubeID(
+          link
+        )}"
+        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
+    } else if (link.includes('spotify.com')) {
+      player = `<iframe src="https://open.spotify.com/embed/track/${Helpers.extractSpotifyID(
+        link
+      )}" width="100%" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`
+    } else if (link.includes('soundcloud.com')) {
+      player = `<iframe width="100%" scrolling="no" frameborder="no" allow="autoplay"
+        src="https://w.soundcloud.com/player/?url=${link}&color=%23ff5500&auto_play=false"></iframe>`
+    }
+
+    return player
+  }
+
   static generateUUID() {
     if (crypto.randomUUID) {
       return crypto.randomUUID()
@@ -29,6 +51,24 @@ export class Helpers {
         }
       )
     }
+  }
+
+  static callIndexEventListeners() {
+    addEventListenerToElement('search-users-btn', () => {
+      window.location.href = 'search-users.html'
+    })
+  }
+
+  static callSearchUsersEventListeners() {
+    document.getElementById('search-input').addEventListener('input', (e) => {
+      const searchValue = e.target.value.toLowerCase().trim()
+      const blankSpaceRegex = /^\s*$/
+      if (blankSpaceRegex.test(searchValue)) return displayUsers([])
+      const filteredUsers = usersData.filter((user) =>
+        user.username.toLowerCase().includes(searchValue)
+      )
+      searchUsers.displayUsers(filteredUsers)
+    })
   }
 
   static callPlaylistEventListeners() {

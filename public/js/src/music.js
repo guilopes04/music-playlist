@@ -22,7 +22,7 @@ export const Music = (storage) => {
       container.innerHTML += `
         <div>
           <h4>${musica.titulo}</h4>
-          ${getMusicPlayer(musica.link)}
+          ${Helpers.getMusicPlayer(musica.link)}
           <br/>
           <button class="btn btn-warning" name="edit-music-btn">Editar</button>
           <button class="btn btn-danger" name="remove-music-btn">Remover</button>
@@ -32,28 +32,6 @@ export const Music = (storage) => {
     })
 
     Helpers.callMusicEventListeners()
-  }
-
-  // Função para gerar o player de música (YouTube, Spotify ou SoundCloud)
-  const getMusicPlayer = (link) => {
-    let player = ''
-
-    if (link.includes('youtube.com') || link.includes('youtu.be')) {
-      player = `
-        <iframe width="100%" src="https://www.youtube.com/embed/${Helpers.extractYouTubeID(
-          link
-        )}"
-        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
-    } else if (link.includes('spotify.com')) {
-      player = `<iframe src="https://open.spotify.com/embed/track/${Helpers.extractSpotifyID(
-        link
-      )}" width="100%" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`
-    } else if (link.includes('soundcloud.com')) {
-      player = `<iframe width="100%" scrolling="no" frameborder="no" allow="autoplay"
-        src="https://w.soundcloud.com/player/?url=${link}&color=%23ff5500&auto_play=false"></iframe>`
-    }
-
-    return player
   }
 
   const adicionarMusica = () => {
