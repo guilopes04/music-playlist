@@ -23,7 +23,7 @@ export class Storage {
     this.saveItems(items)
   }
 
-  addItem(item) {
+  save(item) {
     let items = this.getItems()
     items.push(item)
     this.saveItems(items)

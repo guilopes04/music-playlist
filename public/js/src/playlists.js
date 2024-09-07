@@ -27,7 +27,7 @@ export const Playlist = (storage) => {
   const adicionarPlaylist = () => {
     const nome = prompt('Digite o nome da nova playlist:')
     if (nome) {
-      storage.addItem({ id: Helpers.generateUUID(), nome, musicas: [] })
+      storage.save({ id: Helpers.generateUUID(), nome, musicas: [] })
       exibirPlaylists()
     }
   }
