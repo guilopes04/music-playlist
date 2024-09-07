@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Músicas da Playlist</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="index.html">Playlist Música</a>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="playlist.html">Voltar para Playlists</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="login.html" onclick="logout()">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container mt-5">
+      <h2 id="title-list-musics" class="text-center">Músicas da Playlist</h2>
+      <button class="btn btn-success mt-3" name="add-music-btn">
+        Adicionar Música
+      </button>
+      <div id="music-container" class="mt-4"></div>
+    </div>
+
+    <script type="module" src="js/script.js"></script>
+  </body>
+</html>
