@@ -1,24 +1,29 @@
 import { Helpers } from './helpers.js'
 
 export const Playlist = (storage) => {
-  const exibirPlaylists = () => {
-    const playlists = storage.getItems()
+  const exibirPlaylists = async () => {
+    storage.setResource('playlists.php')
+    console.log('endpoint', storage.getEndpoint())
+
+    const playlists = await storage.getItems()
+    console.log('exibirPlaylists', playlists)
+
     const container = document.getElementById('playlist-container')
+
     container.innerHTML = ''
 
-    playlists.forEach((playlist, index) => {
+    playlists.forEach((playlist) => {
       container.innerHTML += `
-          <div class="playlist-item d-flex justify-content-between align-items-center">
-            <div>
-              <h4>${playlist.nome}</h4>
-              <br/>
-              <button class="btn btn-warning" name="edit-playlist-btn">Editar</button>
-              <button class="btn btn-danger" name="remove-playlist-btn">Remover</button>
-            </div>
-            <button class="btn btn-secondary" name="get-music-of-playlist-btn">&gt;</button>
+        <div class="playlist-item d-flex justify-content-between align-items-center">
+          <div>
+            <h4>${playlist.nome}</h4>
+            <button class="btn btn-warning btn-sm" data-id="${playlist.id}" name="edit-playlist-btn">Editar</button>
+            <button class="btn btn-danger btn-sm" data-id="${playlist.id}" name="remove-playlist-btn">Remover</button>
           </div>
-          <hr/>
-        `
+          <button class="btn btn-secondary btn-sm" data-id="${playlist.id}" name="get-music-of-playlist-btn">Ver Músicas</button>
+        </div>
+        <hr/>
+      `
     })
 
     Helpers.callPlaylistEventListeners()

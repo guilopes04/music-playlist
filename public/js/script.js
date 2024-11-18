@@ -1,10 +1,10 @@
 import { Helpers } from './src/helpers.js'
-import { Storage } from './src/localStorage.js'
+import { Storage } from './src/back-end-requests.js'
 import { Music } from './src/music.js'
 import { Playlist } from './src/playlists.js'
 import { SearchUsers } from './src/search-users.js'
 import { UserPlaylist } from './src/user-playlist.js'
-const storage = new Storage('playlists')
+const storage = new Storage('http://localhost:8000')
 export const playlist = Playlist(storage)
 export const music = Music(storage)
 export const searchUsers = SearchUsers()
@@ -24,11 +24,13 @@ export function checkAuthentication() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
+  //checkAuthentication()
+
   if (window.location.pathname.includes('user-playlist.html')) {
-    userPlaylist.displayPlaylist()
+    searchUsers.displayPlaylist()
   } else if (window.location.pathname.includes('playlist.html')) {
-    playlist.exibirPlaylists()
+    await playlist.exibirPlaylists()
   } else if (window.location.pathname.includes('music.html')) {
     music.exibirMusicas()
   } else if (window.location.pathname.includes('index.html')) {
