@@ -3,7 +3,6 @@ import { Helpers } from './helpers.js'
 export const Playlist = (storage) => {
   const exibirPlaylists = async () => {
     storage.setResource('playlists.php')
-    console.log('endpoint', storage.getEndpoint())
 
     const playlists = await storage.getItems()
     console.log('exibirPlaylists', playlists)
@@ -16,11 +15,22 @@ export const Playlist = (storage) => {
       container.innerHTML += `
         <div class="playlist-item d-flex justify-content-between align-items-center">
           <div>
-            <h4>${playlist.nome}</h4>
-            <button class="btn btn-warning btn-sm" data-id="${playlist.id}" name="edit-playlist-btn">Editar</button>
-            <button class="btn btn-danger btn-sm" data-id="${playlist.id}" name="remove-playlist-btn">Remover</button>
+        <h4>${playlist.titulo}</h4>
+        <p>${playlist.descricao}</p>
+        </br>
+        <p>Criado em: ${new Date(playlist.criado_em).toLocaleDateString(
+          'pt-BR'
+        )}</p>
+        <button class="btn btn-warning btn-sm" data-id="${
+          playlist.id
+        }" name="edit-playlist-btn">Editar</button>
+        <button class="btn btn-danger btn-sm" data-id="${
+          playlist.id
+        }" name="remove-playlist-btn">Remover</button>
           </div>
-          <button class="btn btn-secondary btn-sm" data-id="${playlist.id}" name="get-music-of-playlist-btn">Ver Músicas</button>
+          <button class="btn btn-secondary btn-sm" data-id="${
+            playlist.id
+          }" name="get-music-of-playlist-btn">Ver Músicas</button>
         </div>
         <hr/>
       `
