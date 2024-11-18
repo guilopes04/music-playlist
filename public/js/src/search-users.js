@@ -1,7 +1,10 @@
-export const SearchUsers = () => {
-  const displayUsers = (users) => {
+export const SearchUsers = (storage) => {
+  const displayUsers = async () => {
     const usersList = document.getElementById('users-list')
+    storage.setResource('usuarios.php')
     usersList.innerHTML = ''
+
+    const users = await storage.getItems()
 
     if (users.length === 0) {
       usersList.innerHTML = '<p>Nenhum usuário encontrado.</p>'
@@ -42,10 +45,13 @@ export const SearchUsers = () => {
     window.location.href = `user-playlist.html?user=${username}&playlist=${playlistIndex}`
   }
 
-  const createUser = () => {
+  const createUser = async () => {
     const name = document.getElementById('new-name').value.trim()
     const email = document.getElementById('new-email').value.trim()
     const password = document.getElementById('new-password').value.trim()
+    storage.setResource("usuarios.php")
+
+    const users = await storage.getItems()
 
     if (!name || !email || !password) {
       alert('Por favor, preencha todos os campos.')
@@ -61,6 +67,8 @@ export const SearchUsers = () => {
 
     users.push(newUser)
     displayUsers(users)
+
+    await storage.save(newUser)
 
     document.getElementById('new-name').value = ''
     document.getElementById('new-email').value = ''
