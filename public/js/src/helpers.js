@@ -75,7 +75,7 @@ export class Helpers {
   static callPlaylistEventListeners() {
     addEventListenerToElement('add-playlist-btn', playlist.adicionarPlaylist)
     addEventListenerToElement(
-      'edit-playlist-btn',
+      'save-edit-playlist-btn',
       playlist.editarPlaylist,
       true
     )

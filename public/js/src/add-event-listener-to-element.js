@@ -2,27 +2,22 @@ export const addEventListenerToElement = (
   elementId,
   method,
   useIndex = false,
-  eventType = 'click',
-  retries = 5,
-  delay = 200
+  eventType = 'click'
 ) => {
-  const attempt = () => {
-    const elements = document.getElementsByName(elementId)
-    if (elements.length) {
-      elements.forEach((element, index) =>
-        element.addEventListener(eventType, () => {
-          elementId === 'search-users-btn'
-            ? console.log('elemnt', element)
-            : null
-          useIndex ? method(index) : method()
-        })
-      )
-      return
-    } else if (retries > 0) {
-      setTimeout(() => attempt(--retries), delay)
-    } else {
-    }
+  const element = document.getElementById(elementId)
+
+  if (!element) {
+    console.error(`Elemento com ID "${elementId}" não encontrado.`)
+    return
   }
 
-  attempt()
+  // Adiciona o evento
+  element.addEventListener(eventType, (event) => {
+    if (useIndex) {
+      const index = Array.from(element.parentNode.children).indexOf(element)
+      method(index, event)
+    } else {
+      method(event)
+    }
+  })
 }

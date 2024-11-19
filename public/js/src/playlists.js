@@ -2,7 +2,7 @@ import { Helpers } from './helpers.js'
 
 export const Playlist = (storage) => {
   const exibirPlaylists = async () => {
-    storage.setResource('playlists.php')
+    storage.setResource('playlists.php?usuario_id=1')
 
     const playlists = await storage.getItems()
     console.log('exibirPlaylists', playlists)
@@ -30,7 +30,7 @@ export const Playlist = (storage) => {
           </div>
           <button class="btn btn-secondary btn-sm" data-id="${
             playlist.id
-          }" name="get-music-of-playlist-btn">Ver Músicas</button>
+          }" id="get-music-of-playlist-btn">Ver Músicas</button>
         </div>
         <hr/>
       `
@@ -39,12 +39,23 @@ export const Playlist = (storage) => {
     Helpers.callPlaylistEventListeners()
   }
 
-  const adicionarPlaylist = () => {
-    const nome = prompt('Digite o nome da nova playlist:')
-    if (nome) {
-      storage.save({ id: Helpers.generateUUID(), nome, musicas: [] })
-      exibirPlaylists()
+  const adicionarPlaylist = async () => {
+    storage.setResource('playlists.php')
+
+    const titulo = document.getElementById('playlist-name-input').value.trim()
+    const descricao = document
+      .getElementById('playlist-description-input')
+      ?.value?.trim()
+
+    if (!titulo) {
+      alert('Por favor, insira o titulo da playlist.')
+      return
     }
+
+    await storage.save({ titulo, descricao, usuario_id: 1 })
+
+    $('#addPlaylistModal').modal('hide')
+    exibirPlaylists()
   }
 
   const removerPlaylist = (index) => {
