@@ -40,6 +40,9 @@ document.addEventListener('DOMContentLoaded', async function () {
       'playlist_name'
     )
 
+    localStorage.setItem('currentPlaylistId', playlistId)
+    localStorage.setItem('currentPlaylistName', playlistName)
+
     await music.exibirMusicas(playlistId, playlistName)
   } else if (window.location.pathname.includes('index.html')) {
     Helpers.callIndexEventListeners()

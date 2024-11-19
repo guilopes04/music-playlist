@@ -27,7 +27,7 @@ export const Music = (storage) => {
     musicas.forEach((musica) => {
       container.innerHTML += `
         <div>
-          <h4>${musica.titulo}</h4>
+          <h4>${musica.titulo} - ${musica.artista}</h4>
           ${Helpers.getMusicPlayer(musica.link)}
           <br/>
           <button
@@ -37,6 +37,8 @@ export const Music = (storage) => {
             data-id="${musica.id}"
             data-name="${musica.titulo}"
             data-url="${musica.link}"
+            data-artist="${musica.artista}"
+            data-platform="${musica.plataforma}"
           >
             Editar
           </button>
@@ -57,15 +59,17 @@ export const Music = (storage) => {
     Helpers.callMusicEventListeners()
   }
 
-  const adicionarMusica = () => {
-    const titulo = prompt('Digite o título da música:')
-    const link = prompt('Digite o link da música:')
+  const adicionarMusica = async () => {
+    const titulo = $('#music-name-input').val().trim()
+    const link = $('#music-url-input').val().trim()
+    const artista = $('#music-artist-input').val().trim()
+    const plataforma = $('#music-platform-input').val().trim()
 
     const validLinkRegex =
       /^(https?:\/\/)?(www\.)?(open\.spotify\.com|spotify\.com|youtu\.be|youtube\.com|soundcloud\.com)\/.+$/
 
-    if (!titulo || !link) {
-      alert('Título ou link não pode ser vazio.')
+    if (!titulo || !link || !artista || !plataforma) {
+      alert('Preencha todos os campos.')
       return
     }
 
@@ -74,48 +78,80 @@ export const Music = (storage) => {
       return
     }
 
-    const playlistIndex = localStorage.getItem('currentPlaylistIndex')
-    const playlists = storage.getItems()
-    const currentPlaylist = playlists[playlistIndex]
-    currentPlaylist.musicas.push({ id: Helpers.generateUUID(), titulo, link })
+    try {
+      await storage.save({
+        titulo,
+        link,
+        artista,
+        plataforma,
+        playlist_id: localStorage.getItem('currentPlaylistId')
+      })
 
-    storage.editItem(playlistIndex, currentPlaylist)
-    exibirMusicas()
+      $('#addMusicModal').modal('hide')
+      await exibirMusicas(
+        localStorage.getItem('currentPlaylistId'),
+        localStorage.getItem('currentPlaylistName')
+      )
+    } catch (error) {
+      console.error('Erro ao adicionar música:', error)
+      alert('Erro ao adicionar música. Tente novamente.')
+    }
   }
 
-  const removerMusica = (index) => {
-    const playlistIndex = localStorage.getItem('currentPlaylistIndex')
-    const playlists = storage.getItems()
-    const currentPlaylist = playlists[playlistIndex]
+  const removerMusica = async () => {
+    const playlistId = localStorage.getItem('currentPlaylistId')
+    const playlistName = localStorage.getItem('currentPlaylistName')
 
-    currentPlaylist.musicas.splice(index, 1)
+    const id = $('#remove-music-btn').data('id')
 
-    storage.saveItems(playlists)
+    storage.setResource(`musicas.php?playlist_id=${playlistId}&musica_id=${id}`)
 
-    exibirMusicas()
+    try {
+      await storage.removeItem()
+
+      $('#deleteMusicModal').modal('hide')
+
+      await exibirMusicas(playlistId, playlistName)
+    } catch (error) {
+      console.error('Erro ao remover música:', error)
+      alert('Erro ao remover música. Tente novamente.')
+    }
   }
 
-  const editarMusica = (index) => {
-    const playlistIndex = localStorage.getItem('currentPlaylistIndex')
-    const playlists = storage.getItems()
-    const currentPlaylist = playlists[playlistIndex]
-    const novoTitulo = prompt(
-      'Editar título da música:',
-      currentPlaylist.musicas[index].titulo
-    )
-    const novoLink = prompt(
-      'Editar link da música:',
-      currentPlaylist.musicas[index].link
-    )
+  const editarMusica = async () => {
+    const id = $('#save-edit-music-btn').data('id')
 
-    currentPlaylist.musicas[index] = {
-      titulo: novoTitulo,
-      link: novoLink
+    storage.setResource(`musicas.php?musica_id=${id}`)
+
+    const titulo = $('#edit-music-name-input').val().trim()
+    const link = $('#edit-music-url-input').val().trim()
+    const artista = $('#edit-music-artist-input').val().trim()
+    const plataforma = $('#edit-music-platform-input').val().trim()
+
+    if (!titulo || !link || !artista || !plataforma) {
+      alert('Preencha todos os campos.')
+      return
     }
 
-    if (novoTitulo && novoLink) {
-      storage.editItem(playlistIndex, currentPlaylist)
-      exibirMusicas()
+    const validLinkRegex =
+      /^(https?:\/\/)?(www\.)?(open\.spotify\.com|spotify\.com|youtu\.be|youtube\.com|soundcloud\.com)\/.+$/
+
+    if (!validLinkRegex.test(link)) {
+      alert('O link precisa ser do Spotify, YouTube ou SoundCloud.')
+      return
+    }
+
+    try {
+      await storage.editItem({ titulo, link, artista, plataforma })
+
+      $('#editMusicModal').modal('hide')
+      await exibirMusicas(
+        localStorage.getItem('currentPlaylistId'),
+        localStorage.getItem('currentPlaylistName')
+      )
+    } catch (error) {
+      console.error('Erro ao editar música:', error)
+      alert('Erro ao editar música. Tente novamente.')
     }
   }
 
@@ -127,9 +163,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const id = $(this).data('id')
     const name = $(this).data('name')
     const url = $(this).data('url')
+    const artist = $(this).data('artist')
+    const platform = $(this).data('platform')
 
     $('#edit-music-name-input').val(name)
     $('#edit-music-url-input').val(url)
+    $('#edit-music-artist-input').val(artist)
+    $('#edit-music-platform-input').val(platform)
     $('#save-edit-music-btn').data('id', id)
   })
 
