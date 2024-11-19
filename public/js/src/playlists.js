@@ -42,6 +42,7 @@ export const Playlist = (storage) => {
           <button
             class="btn btn-secondary btn-sm"
             data-id="${playlist.id}"
+            data-title="${playlist.titulo}"
             id="get-music-of-playlist-btn"
           >
             Ver Músicas
@@ -60,64 +61,61 @@ export const Playlist = (storage) => {
       .getElementById('playlist-description-input')
       ?.value?.trim()
 
-    if (!titulo) {
-      alert('Por favor, insira o título da playlist.')
-      return
-    }
+    // if (!titulo) {
+    //   alert('Por favor, insira o título da playlist.')
+    //   return
+    // }
 
     await storage.save({ titulo, descricao, usuario_id: 1 })
     $('#addPlaylistModal').modal('hide')
-    exibirPlaylists()
+    await exibirPlaylists()
   }
 
   const removerPlaylist = async () => {
     const id = $('#remove-playlist-btn').data('id')
-    await storage.removeItem(id)
+
+    storage.setResource(`playlists.php?id=${id}`)
+
+    await storage.removeItem()
+
     $('#deletePlaylistModal').modal('hide')
-    exibirPlaylists()
+    await exibirPlaylists()
   }
 
   const editarPlaylist = async () => {
     const id = $('#save-edit-playlist-btn').data('id')
-    const novoNome = document
+
+    storage.setResource(`playlists.php?id=${id}`)
+
+    const novoTitulo = document
       .getElementById('edit-playlist-name-input')
       .value.trim()
     const novaDescricao = document
       .getElementById('edit-playlist-description-input')
       .value.trim()
 
-    if (!novoNome) {
-      alert('Por favor, insira o nome.')
+    if (!novoTitulo) {
+      alert('Por favor, insira o titulo.')
       return
     }
 
-    await storage.editItem(id, { titulo: novoNome, descricao: novaDescricao })
+    await storage.editItem({ titulo: novoTitulo, descricao: novaDescricao })
+
     $('#editPlaylistModal').modal('hide')
-    exibirPlaylists()
+    await exibirPlaylists()
   }
 
   const acessarPlaylist = async (event) => {
     const id = event.target.dataset.id
+    const title = event.target.dataset.title
 
     if (!id) {
       console.error('ID da playlist não encontrado.')
       return
     }
 
-    try {
-      storage.setResource(`playlists.php?id=${id}`)
-      const playlist = await storage.getItem()
-
-      if (!playlist) {
-        alert('Playlist não encontrada.')
-        return
-      }
-
-      localStorage.setItem('currentPlaylist', JSON.stringify(playlist))
-      window.location.href = 'music.html'
-    } catch (error) {
-      console.error('Erro ao acessar playlist:', error)
-    }
+    window.location.href =
+      'music.html' + '?playlist_id=' + id + '&playlist_name=' + title
   }
 
   return {
@@ -148,4 +146,23 @@ document.addEventListener('DOMContentLoaded', () => {
     $('#delete-playlist-name').text(title)
     $('#remove-playlist-btn').data('id', id)
   })
+
+  // $('#add-playlist-btn').on('click', async () => {
+  //   const titulo = $('#playlist-name-input').val().trim()
+  //   const descricao = $('#playlist-description-input').val().trim()
+
+  //   // if (!titulo) {
+  //   //   alert('Por favor, insira o título da playlist.')
+  //   //   return
+  //   // }
+
+  //   // try {
+  //   //   await storage.save({ titulo, descricao, usuario_id: 1 })
+  //   //   $('#addPlaylistModal').modal('hide') // Fecha o modal após salvar
+  //   //   playlist.exibirPlaylists() // Atualiza a lista de playlists
+  //   // } catch (error) {
+  //   //   console.error('Erro ao adicionar playlist:', error)
+  //   //   alert('Erro ao adicionar playlist. Tente novamente.')
+  //   // }
+  // })
 })

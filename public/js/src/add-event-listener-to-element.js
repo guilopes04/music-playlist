@@ -10,7 +10,13 @@ export const addEventListenerToElement = (
     return
   }
 
+  if (element.dataset.eventAdded === 'true') {
+    return
+  }
+
   element.addEventListener(eventType, (event) => {
     method(event)
   })
+
+  element.dataset.eventAdded = 'true'
 }
