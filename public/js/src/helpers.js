@@ -1,6 +1,8 @@
 import { addEventListenerToElement } from './add-event-listener-to-element.js'
-import { music, playlist, searchUsers } from '../script.js'
-import { usersData } from './mock/usersData.js'
+import { Playlist } from './playlists.js'
+import { Music } from './music.js'
+import { SearchUsers } from './search-users.js'
+import { storage } from '../script.js'
 
 export class Helpers {
   static extractYouTubeID(url) {
@@ -61,16 +63,18 @@ export class Helpers {
   }
 
   static async callSearchUsersEventListeners() {
-    document.getElementById('search-input').addEventListener('input', async (e) => {
-      const searchValue = e.target.value.toLowerCase().trim()
-      const blankSpaceRegex = /^\s*$/
-      if (blankSpaceRegex.test(searchValue)) return searchUsers.displayUsers(searchValue)
-      await searchUsers.displayUsers(searchValue)
-    })
-    addEventListenerToElement('create-user-btn', searchUsers.createUser, true)
+    const searchUsers = SearchUsers(storage)
+
+    await searchUsers.displayUsers('')
+
+    addEventListenerToElement('search-input', searchUsers.displayUsers, 'input')
+
+    addEventListenerToElement('create-user-btn', searchUsers.createUser)
   }
 
   static callPlaylistEventListeners() {
+    const playlist = Playlist(storage)
+
     addEventListenerToElement('add-playlist-btn', playlist.adicionarPlaylist)
     addEventListenerToElement('save-edit-playlist-btn', playlist.editarPlaylist)
     addEventListenerToElement('remove-playlist-btn', playlist.removerPlaylist)
@@ -81,6 +85,8 @@ export class Helpers {
   }
 
   static callMusicEventListeners() {
+    const music = Music(storage)
+
     addEventListenerToElement('add-music-btn', music.adicionarMusica)
     addEventListenerToElement('save-edit-music-btn', music.editarMusica)
     addEventListenerToElement('remove-music-btn', music.removerMusica)

@@ -155,29 +155,29 @@ export const Music = (storage) => {
     }
   }
 
+  document.addEventListener('DOMContentLoaded', () => {
+    $(document).on('click', '[data-target="#editMusicModal"]', function () {
+      const id = $(this).data('id')
+      const name = $(this).data('name')
+      const url = $(this).data('url')
+      const artist = $(this).data('artist')
+      const platform = $(this).data('platform')
+
+      $('#edit-music-name-input').val(name)
+      $('#edit-music-url-input').val(url)
+      $('#edit-music-artist-input').val(artist)
+      $('#edit-music-platform-input').val(platform)
+      $('#save-edit-music-btn').data('id', id)
+    })
+
+    $(document).on('click', '[data-target="#deleteMusicModal"]', function () {
+      const id = $(this).data('id')
+      const name = $(this).data('name')
+
+      $('#delete-music-name').text(name)
+      $('#remove-music-btn').data('id', id)
+    })
+  })
+
   return { exibirMusicas, adicionarMusica, removerMusica, editarMusica }
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-  $(document).on('click', '[data-target="#editMusicModal"]', function () {
-    const id = $(this).data('id')
-    const name = $(this).data('name')
-    const url = $(this).data('url')
-    const artist = $(this).data('artist')
-    const platform = $(this).data('platform')
-
-    $('#edit-music-name-input').val(name)
-    $('#edit-music-url-input').val(url)
-    $('#edit-music-artist-input').val(artist)
-    $('#edit-music-platform-input').val(platform)
-    $('#save-edit-music-btn').data('id', id)
-  })
-
-  $(document).on('click', '[data-target="#deleteMusicModal"]', function () {
-    const id = $(this).data('id')
-    const name = $(this).data('name')
-
-    $('#delete-music-name').text(name)
-    $('#remove-music-btn').data('id', id)
-  })
-})

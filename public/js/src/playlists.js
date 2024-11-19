@@ -118,6 +118,31 @@ export const Playlist = (storage) => {
       'music.html' + '?playlist_id=' + id + '&playlist_name=' + title
   }
 
+  document.addEventListener('DOMContentLoaded', () => {
+    // Configurações dos modais
+    $(document).on('click', '[data-target="#editPlaylistModal"]', function () {
+      const id = $(this).data('id')
+      const title = $(this).data('title')
+      const description = $(this).data('description')
+
+      $('#edit-playlist-name-input').val(title)
+      $('#edit-playlist-description-input').val(description)
+      $('#save-edit-playlist-btn').data('id', id)
+    })
+
+    $(document).on(
+      'click',
+      '[data-target="#deletePlaylistModal"]',
+      function () {
+        const id = $(this).data('id')
+        const title = $(this).data('title')
+
+        $('#delete-playlist-name').text(title)
+        $('#remove-playlist-btn').data('id', id)
+      }
+    )
+  })
+
   return {
     exibirPlaylists,
     adicionarPlaylist,
@@ -126,43 +151,3 @@ export const Playlist = (storage) => {
     acessarPlaylist
   }
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-  // Configurações dos modais
-  $(document).on('click', '[data-target="#editPlaylistModal"]', function () {
-    const id = $(this).data('id')
-    const title = $(this).data('title')
-    const description = $(this).data('description')
-
-    $('#edit-playlist-name-input').val(title)
-    $('#edit-playlist-description-input').val(description)
-    $('#save-edit-playlist-btn').data('id', id)
-  })
-
-  $(document).on('click', '[data-target="#deletePlaylistModal"]', function () {
-    const id = $(this).data('id')
-    const title = $(this).data('title')
-
-    $('#delete-playlist-name').text(title)
-    $('#remove-playlist-btn').data('id', id)
-  })
-
-  // $('#add-playlist-btn').on('click', async () => {
-  //   const titulo = $('#playlist-name-input').val().trim()
-  //   const descricao = $('#playlist-description-input').val().trim()
-
-  //   // if (!titulo) {
-  //   //   alert('Por favor, insira o título da playlist.')
-  //   //   return
-  //   // }
-
-  //   // try {
-  //   //   await storage.save({ titulo, descricao, usuario_id: 1 })
-  //   //   $('#addPlaylistModal').modal('hide') // Fecha o modal após salvar
-  //   //   playlist.exibirPlaylists() // Atualiza a lista de playlists
-  //   // } catch (error) {
-  //   //   console.error('Erro ao adicionar playlist:', error)
-  //   //   alert('Erro ao adicionar playlist. Tente novamente.')
-  //   // }
-  // })
-})

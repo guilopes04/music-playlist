@@ -15,7 +15,12 @@ export const addEventListenerToElement = (
   }
 
   element.addEventListener(eventType, (event) => {
-    method(event)
+    if (eventType === 'input') {
+      const searchValue = event.target.value.toLowerCase().trim()
+      method(searchValue)
+    } else {
+      method(event)
+    }
   })
 
   element.dataset.eventAdded = 'true'

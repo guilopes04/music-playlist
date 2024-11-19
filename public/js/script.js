@@ -2,13 +2,9 @@ import { Helpers } from './src/helpers.js'
 import { Storage } from './src/back-end-requests.js'
 import { Music } from './src/music.js'
 import { Playlist } from './src/playlists.js'
-import { SearchUsers } from './src/search-users.js'
 import { UserPlaylist } from './src/user-playlist.js'
-const storage = new Storage('http://localhost:8000')
-export const playlist = Playlist(storage)
-export const music = Music(storage)
-export const searchUsers = SearchUsers(storage)
-export const userPlaylist = UserPlaylist(storage)
+
+export const storage = new Storage('http://localhost:8000')
 
 document.getElementById('loginForm')?.addEventListener('submit', function (e) {
   e.preventDefault()
@@ -28,10 +24,16 @@ document.addEventListener('DOMContentLoaded', async function () {
   //checkAuthentication()
 
   if (window.location.pathname.includes('user-playlist.html')) {
+    const userPlaylist = UserPlaylist(storage)
+
     await userPlaylist.displayPlaylist()
   } else if (window.location.pathname.includes('playlist.html')) {
+    const playlist = Playlist(storage)
+
     await playlist.exibirPlaylists()
   } else if (window.location.pathname.includes('music.html')) {
+    const music = Music(storage)
+
     const playlistId = new URLSearchParams(window.location.search).get(
       'playlist_id'
     )
