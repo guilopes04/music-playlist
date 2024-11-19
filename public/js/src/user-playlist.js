@@ -11,22 +11,16 @@ export const UserPlaylist = (storage) => {
 
   const displayPlaylist = async (userId) => {
     const { username, playlistIndex } = getQueryParams()
-    console.log(playlistIndex)
-    storage.setResource(`playlists.php?id=${playlistIndex}`)
+    storage.setResource(`playlists.php`)
 
 
-    const playlist = await storage.getItems()
+    const playlists = await storage.getItems()
 
-    console.log(playlist[0])
+    const playlist = playlists.filter(value => value.id == playlistIndex)
 
     storage.setResource(`musicas.php?playlist_id=${playlist[0].id}`)
 
     const musicas = await storage.getItems()
-
-    console.log(musicas)
-
-
-    const user = usersData.find((user) => user.username === username)
 
     const playlistContainer = document.getElementById('user-playlist-container')
 
