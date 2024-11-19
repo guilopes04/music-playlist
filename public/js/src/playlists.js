@@ -42,6 +42,7 @@ export const Playlist = (storage) => {
           <button
             class="btn btn-secondary btn-sm"
             data-id="${playlist.id}"
+            data-title="${playlist.titulo}"
             id="get-music-of-playlist-btn"
           >
             Ver Músicas
@@ -106,26 +107,15 @@ export const Playlist = (storage) => {
 
   const acessarPlaylist = async (event) => {
     const id = event.target.dataset.id
+    const title = event.target.dataset.title
 
     if (!id) {
       console.error('ID da playlist não encontrado.')
       return
     }
 
-    try {
-      storage.setResource(`playlists.php?id=${id}`)
-      const playlist = await storage.getItem()
-
-      if (!playlist) {
-        alert('Playlist não encontrada.')
-        return
-      }
-
-      localStorage.setItem('currentPlaylist', JSON.stringify(playlist))
-      window.location.href = 'music.html'
-    } catch (error) {
-      console.error('Erro ao acessar playlist:', error)
-    }
+    window.location.href =
+      'music.html' + '?playlist_id=' + id + '&playlist_name=' + title
   }
 
   return {

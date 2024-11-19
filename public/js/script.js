@@ -31,10 +31,16 @@ document.addEventListener('DOMContentLoaded', async function () {
     searchUsers.displayPlaylist()
   } else if (window.location.pathname.includes('playlist.html')) {
     await playlist.exibirPlaylists()
-    Helpers.callPlaylistEventListeners()
   } else if (window.location.pathname.includes('music.html')) {
-    music.exibirMusicas()
-    Helpers.callMusicEventListeners()
+    const playlistId = new URLSearchParams(window.location.search).get(
+      'playlist_id'
+    )
+
+    const playlistName = new URLSearchParams(window.location.search).get(
+      'playlist_name'
+    )
+
+    await music.exibirMusicas(playlistId, playlistName)
   } else if (window.location.pathname.includes('index.html')) {
     Helpers.callIndexEventListeners()
   } else if (window.location.pathname.includes('search-users.html')) {

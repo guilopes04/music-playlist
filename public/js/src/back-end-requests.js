@@ -18,8 +18,6 @@ export class Storage {
     return await response.json()
   }
 
-  async getItem() {}
-
   async save(item) {
     const response = await fetch(`${this.url}`, {
       method: 'POST',

@@ -84,7 +84,7 @@ export class Helpers {
 
   static callMusicEventListeners() {
     addEventListenerToElement('add-music-btn', music.adicionarMusica)
-    addEventListenerToElement('edit-music-btn', music.editarMusica, true)
-    addEventListenerToElement('remove-music-btn', music.removerMusica, true)
+    addEventListenerToElement('save-edit-music-btn', music.editarMusica)
+    addEventListenerToElement('remove-music-btn', music.removerMusica)
   }
 }
