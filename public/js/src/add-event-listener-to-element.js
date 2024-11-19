@@ -1,7 +1,6 @@
 export const addEventListenerToElement = (
   elementId,
   method,
-  useIndex = false,
   eventType = 'click'
 ) => {
   const element = document.getElementById(elementId)
@@ -11,13 +10,7 @@ export const addEventListenerToElement = (
     return
   }
 
-  // Adiciona o evento
   element.addEventListener(eventType, (event) => {
-    if (useIndex) {
-      const index = Array.from(element.parentNode.children).indexOf(element)
-      method(index, event)
-    } else {
-      method(event)
-    }
+    method(event)
   })
 }

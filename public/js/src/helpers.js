@@ -74,20 +74,11 @@ export class Helpers {
 
   static callPlaylistEventListeners() {
     addEventListenerToElement('add-playlist-btn', playlist.adicionarPlaylist)
-    addEventListenerToElement(
-      'save-edit-playlist-btn',
-      playlist.editarPlaylist,
-      true
-    )
-    addEventListenerToElement(
-      'remove-playlist-btn',
-      playlist.removerPlaylist,
-      true
-    )
+    addEventListenerToElement('save-edit-playlist-btn', playlist.editarPlaylist)
+    addEventListenerToElement('remove-playlist-btn', playlist.removerPlaylist)
     addEventListenerToElement(
       'get-music-of-playlist-btn',
-      playlist.acessarPlaylist,
-      true
+      playlist.acessarPlaylist
     )
   }
 
