@@ -60,16 +60,14 @@ export class Helpers {
     })
   }
 
-  static callSearchUsersEventListeners() {
-    document.getElementById('search-input').addEventListener('input', (e) => {
+  static async callSearchUsersEventListeners() {
+    document.getElementById('search-input').addEventListener('input', async (e) => {
       const searchValue = e.target.value.toLowerCase().trim()
       const blankSpaceRegex = /^\s*$/
-      if (blankSpaceRegex.test(searchValue)) return searchUsers.displayUsers([])
-      const filteredUsers = usersData.filter((user) =>
-        user.username.toLowerCase().includes(searchValue)
-      )
-      return searchUsers.displayUsers(filteredUsers)
+      if (blankSpaceRegex.test(searchValue)) return searchUsers.displayUsers(searchValue)
+      await searchUsers.displayUsers(searchValue)
     })
+    addEventListenerToElement('create-user-btn', searchUsers.createUser, true)
   }
 
   static callPlaylistEventListeners() {
