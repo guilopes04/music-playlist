@@ -18,6 +18,8 @@ export class Storage {
     return await response.json()
   }
 
+  async getItem() {}
+
   async save(item) {
     const response = await fetch(`${this.url}`, {
       method: 'POST',
@@ -26,17 +28,17 @@ export class Storage {
     if (!response.ok) throw new Error('Erro ao salvar item')
   }
 
-  async removeItem(id) {
-    const response = await fetch(`${this.url}?action=delete&id=${id}`, {
+  async removeItem() {
+    const response = await fetch(`${this.url}`, {
       method: 'DELETE'
     })
     if (!response.ok) throw new Error('Erro ao remover item')
   }
 
-  async editItem(id, newItem) {
-    const response = await fetch(`${this.url}?action=edit`, {
-      method: 'POST',
-      body: JSON.stringify({ id, ...newItem })
+  async editItem(item) {
+    const response = await fetch(`${this.url}`, {
+      method: 'PUT',
+      body: JSON.stringify(item)
     })
     if (!response.ok) throw new Error('Erro ao editar item')
   }

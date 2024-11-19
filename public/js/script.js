@@ -31,8 +31,10 @@ document.addEventListener('DOMContentLoaded', async function () {
     searchUsers.displayPlaylist()
   } else if (window.location.pathname.includes('playlist.html')) {
     await playlist.exibirPlaylists()
+    Helpers.callPlaylistEventListeners()
   } else if (window.location.pathname.includes('music.html')) {
     music.exibirMusicas()
+    Helpers.callMusicEventListeners()
   } else if (window.location.pathname.includes('index.html')) {
     Helpers.callIndexEventListeners()
   } else if (window.location.pathname.includes('search-users.html')) {
