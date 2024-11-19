@@ -1,7 +1,7 @@
 import { usersData } from './mock/usersData.js'
 import { Helpers } from './helpers.js'
 
-export const UserPlaylist = () => {
+export const UserPlaylist = (storage) => {
   const getQueryParams = () => {
     const params = new URLSearchParams(window.location.search)
     const username = params.get('user')
@@ -9,11 +9,18 @@ export const UserPlaylist = () => {
     return { username, playlistIndex }
   }
 
-  const displayPlaylist = () => {
+  const displayPlaylist = async (userId) => {
     const { username, playlistIndex } = getQueryParams()
+    storage.setResource(`playlists.php`)
 
-    const user = usersData.find((user) => user.username === username)
-    const playlist = user ? user.playlists[playlistIndex] : null
+
+    const playlists = await storage.getItems()
+
+    const playlist = playlists.filter(value => value.id == playlistIndex)
+
+    storage.setResource(`musicas.php?playlist_id=${playlist[0].id}`)
+
+    const musicas = await storage.getItems()
 
     const playlistContainer = document.getElementById('user-playlist-container')
 
@@ -24,9 +31,9 @@ export const UserPlaylist = () => {
       userPlaylistDetailTitle.innerHTML = `<h2 id="user-playlist-detail">Detalhes da Playlist de ${username}</h2>`
 
       playlistContainer.innerHTML = `
-            <h3>Playlist: ${playlist.nome}</h3>
+            <h3>Playlist: ${playlist[0].titulo}</h3>
             <div id="user-playlist-musics-container">
-              ${playlist.musicas
+              ${musicas
                 .map(
                   (musica, index) => `
                 <div>
